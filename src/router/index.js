@@ -14,9 +14,20 @@ const routes = [
     component: Home
   },
   {
+    path: '/shop',
+    name: 'Shop',
+    component: () => import(/* webpackChunkName: "shop" */ '../views/shop/Shop')
+  },
+  {
+    path: '/shop/:id',
+    name: 'Shop',
+    // 异步组件
+    component: () => import(/* webpackChunkName: "shop" */ '../views/shop/Shop')
+  },
+  {
     path: '/login',
     name: 'Login',
-    component: () => import(/* webpackChunkName: "about" */ '../views/login/Login.vue'),
+    component: () => import(/* webpackChunkName: "login" */ '../views/login/Login.vue'),
     // 已经登录，不让进入到登录页面
     beforeEnter(to, from, next) {
       const { isLogin } = localStorage
@@ -26,7 +37,7 @@ const routes = [
   {
     path: '/register',
     name: 'Register',
-    component: () => import(/* webpackChunkName: "about" */ '../views/register/Register.vue'),
+    component: () => import(/* webpackChunkName: "register" */ '../views/register/Register.vue'),
     beforeEnter(to, from, next) {
       const { isLogin } = localStorage
       isLogin ? next({ name: 'Home' }) : next()
