@@ -15,7 +15,7 @@
     </div>
     <div class="product">
       <div class="product__item" v-for="item in list" :key="item._id">
-        <img class="product__item__img" src="http://www.dell-lee.com/imgs/vue3/near.png" />
+        <img class="product__item__img" :src="item.imgUrl" />
         <div class="product__item__detail">
           <h4 class="product__item__title">{{ item.name }}</h4>
           <p class="product__item__sales">月售 {{ item.sales }} 件</p>
@@ -25,9 +25,25 @@
           </p>
         </div>
         <div class="product__number">
-          <span class="product__number__minus">-</span>
-          0
-          <span class="product__number__plus">+</span>
+          <span
+            class="product__number__minus"
+            @click="
+              () => {
+                changeCartItemInfo(shopId, item._id, item, -1)
+              }
+            "
+            >-</span
+          >
+          {{ cartList?.[shopId]?.[item._id]?.count || 0 }}
+          <span
+            class="product__number__plus"
+            @click="
+              () => {
+                changeCartItemInfo(shopId, item._id, item, 1)
+              }
+            "
+            >+</span
+          >
         </div>
       </div>
     </div>
@@ -38,7 +54,7 @@
 import { reactive, toRefs, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { get } from '../../utils/request'
-
+import { useCommonCartEffect } from './commonCartEffect'
 // 切换标签分类
 const categories = [
   { name: '全部商品', tab: 'all' },
@@ -84,10 +100,20 @@ const useCurrentListEffect = (currentTab) => {
 export default {
   name: 'Content',
   setup() {
+    const route = useRoute()
+    const shopId = route.params.id
     const { currentTab, handleTabClick } = useTabEffect()
-    // 依赖currentTab
-    const { list } = useCurrentListEffect(currentTab)
-    return { categories, currentTab, handleTabClick, list }
+    const { list } = useCurrentListEffect(currentTab, shopId)
+    const { cartList, changeCartItemInfo } = useCommonCartEffect()
+    return {
+      categories,
+      currentTab,
+      handleTabClick,
+      list,
+      cartList,
+      shopId,
+      changeCartItemInfo
+    }
   }
 }
 </script>
