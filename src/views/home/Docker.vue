@@ -1,8 +1,10 @@
 <template>
   <div class="docker">
-    <div class="docker__item" v-for="(item, index) in dockerList" :key="item.icon" :class="{ 'docker__item--active': index === 0 }">
-      <div class="iconfont" v-html="item.icon"></div>
-      <div class="docker__title">{{ item.text }}</div>
+    <div v-for="(item, index) in dockerList" :class="{ docker__item: true, 'docker__item--active': index === 0 }" :key="item.icon">
+      <router-link :to="item.to">
+        <div class="iconfont" v-html="item.icon" />
+        <div class="docker__title">{{ item.text }}</div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -14,19 +16,23 @@ export default {
     const dockerList = [
       {
         icon: '&#xe6f3;',
-        text: '首页'
+        text: '首页',
+        to: { name: 'Home' }
       },
       {
         icon: '&#xe7e5;',
-        text: '购物车'
+        text: '购物车',
+        to: { name: 'CartList' }
       },
       {
         icon: '&#xe61e;',
-        text: '订单'
+        text: '订单',
+        to: { name: 'Home' }
       },
       {
         icon: '&#xe660;',
-        text: '我的'
+        text: '我的',
+        to: { name: 'Home' }
       }
     ]
     return { dockerList }
@@ -50,12 +56,18 @@ export default {
   &__item {
     flex: 1;
     text-align: center;
+    a {
+      color: $content-fontcolor;
+      text-decoration: none;
+    }
     .iconfont {
       margin: 0.07rem 0 0.02rem 0;
       font-size: 0.18rem;
     }
     &--active {
-      color: #1fa4fc;
+      a {
+        color: #1fa4fc;
+      }
     }
   }
   &__title {
