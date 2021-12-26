@@ -27,12 +27,12 @@ export default {
       {
         icon: '&#xe61e;',
         text: '订单',
-        to: { name: 'Home' }
+        to: { name: 'OrderList' }
       },
       {
         icon: '&#xe660;',
         text: '我的',
-        to: { name: 'Home' }
+        to: { name: 'Me' }
       }
     ]
     return { dockerList }

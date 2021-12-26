@@ -1,9 +1,14 @@
 <template>
   <router-view />
+  <Docker />
 </template>
 <script>
+import Docker from './views/home/Docker.vue'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Docker
+  }
 }
 </script>
 
